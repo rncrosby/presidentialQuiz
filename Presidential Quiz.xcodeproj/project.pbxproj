@@ -15,7 +15,12 @@
 		AD7A13751F6052BB00C6D182 /* studyView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A13741F6052BB00C6D182 /* studyView.m */; };
 		AD7A13791F60539C00C6D182 /* studyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A13771F60539C00C6D182 /* studyCell.m */; };
 		AD7A137A1F60539C00C6D182 /* studyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD7A13781F60539C00C6D182 /* studyCell.xib */; };
-		AD7A137D1F605BB800C6D182 /* References.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A137C1F605BB700C6D182 /* References.m */; };
+		D408E39F1F60FD4C00533ED8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D408E39E1F60FD4100533ED8 /* QuartzCore.framework */; };
+		D408E3A21F60FE6900533ED8 /* homeView.m in Sources */ = {isa = PBXBuildFile; fileRef = D408E3A11F60FE6900533ED8 /* homeView.m */; };
+		D408E3AC1F6113C800533ED8 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = D408E3AB1F6113A100533ED8 /* flag.png */; };
+		D408E3AE1F61161400533ED8 /* mistakes.png in Resources */ = {isa = PBXBuildFile; fileRef = D408E3AD1F61159F00533ED8 /* mistakes.png */; };
+		D4A956801F60D10800C7FB81 /* References.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A9567F1F60D0D700C7FB81 /* References.m */; };
+		D4A956831F60D26F00C7FB81 /* quizView.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A956821F60D26F00C7FB81 /* quizView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +37,15 @@
 		AD7A13761F60539C00C6D182 /* studyCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = studyCell.h; sourceTree = "<group>"; };
 		AD7A13771F60539C00C6D182 /* studyCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = studyCell.m; sourceTree = "<group>"; };
 		AD7A13781F60539C00C6D182 /* studyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = studyCell.xib; sourceTree = "<group>"; };
-		AD7A137B1F605BAD00C6D182 /* References.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = References.h; path = ../../Hitch/Hitch/References.h; sourceTree = "<group>"; };
-		AD7A137C1F605BB700C6D182 /* References.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = References.m; path = "../../Hitch for iOS/Hitch for iOS/References.m"; sourceTree = "<group>"; };
+		D408E39E1F60FD4100533ED8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D408E3A01F60FE6900533ED8 /* homeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = homeView.h; sourceTree = "<group>"; };
+		D408E3A11F60FE6900533ED8 /* homeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = homeView.m; sourceTree = "<group>"; };
+		D408E3AB1F6113A100533ED8 /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag.png; sourceTree = "<group>"; };
+		D408E3AD1F61159F00533ED8 /* mistakes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mistakes.png; sourceTree = "<group>"; };
+		D4A9567E1F60D0D700C7FB81 /* References.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = References.h; sourceTree = "<group>"; };
+		D4A9567F1F60D0D700C7FB81 /* References.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = References.m; sourceTree = "<group>"; };
+		D4A956811F60D26F00C7FB81 /* quizView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quizView.h; sourceTree = "<group>"; };
+		D4A956821F60D26F00C7FB81 /* quizView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = quizView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D408E39F1F60FD4C00533ED8 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +65,7 @@
 			children = (
 				AD7A135C1F6051E900C6D182 /* Presidential Quiz */,
 				AD7A135B1F6051E900C6D182 /* Products */,
+				D408E39D1F60FD4000533ED8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,13 +80,15 @@
 		AD7A135C1F6051E900C6D182 /* Presidential Quiz */ = {
 			isa = PBXGroup;
 			children = (
-				AD7A137B1F605BAD00C6D182 /* References.h */,
-				AD7A137C1F605BB700C6D182 /* References.m */,
+				D408E3AD1F61159F00533ED8 /* mistakes.png */,
+				D408E3AB1F6113A100533ED8 /* flag.png */,
 				AD7A135D1F6051E900C6D182 /* AppDelegate.h */,
 				AD7A135E1F6051E900C6D182 /* AppDelegate.m */,
 				AD7A13631F6051E900C6D182 /* Main.storyboard */,
 				AD7A13731F6052BB00C6D182 /* studyView.h */,
 				AD7A13741F6052BB00C6D182 /* studyView.m */,
+				D4A9567E1F60D0D700C7FB81 /* References.h */,
+				D4A9567F1F60D0D700C7FB81 /* References.m */,
 				AD7A13661F6051E900C6D182 /* Assets.xcassets */,
 				AD7A13681F6051E900C6D182 /* LaunchScreen.storyboard */,
 				AD7A136B1F6051E900C6D182 /* Info.plist */,
@@ -80,8 +96,20 @@
 				AD7A13761F60539C00C6D182 /* studyCell.h */,
 				AD7A13771F60539C00C6D182 /* studyCell.m */,
 				AD7A13781F60539C00C6D182 /* studyCell.xib */,
+				D4A956811F60D26F00C7FB81 /* quizView.h */,
+				D4A956821F60D26F00C7FB81 /* quizView.m */,
+				D408E3A01F60FE6900533ED8 /* homeView.h */,
+				D408E3A11F60FE6900533ED8 /* homeView.m */,
 			);
 			path = "Presidential Quiz";
+			sourceTree = "<group>";
+		};
+		D408E39D1F60FD4000533ED8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D408E39E1F60FD4100533ED8 /* QuartzCore.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +169,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D408E3AE1F61161400533ED8 /* mistakes.png in Resources */,
+				D408E3AC1F6113C800533ED8 /* flag.png in Resources */,
 				AD7A136A1F6051E900C6D182 /* LaunchScreen.storyboard in Resources */,
 				AD7A13671F6051E900C6D182 /* Assets.xcassets in Resources */,
 				AD7A13651F6051E900C6D182 /* Main.storyboard in Resources */,
@@ -155,8 +185,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D408E3A21F60FE6900533ED8 /* homeView.m in Sources */,
+				D4A956801F60D10800C7FB81 /* References.m in Sources */,
+				D4A956831F60D26F00C7FB81 /* quizView.m in Sources */,
 				AD7A13751F6052BB00C6D182 /* studyView.m in Sources */,
-				AD7A137D1F605BB800C6D182 /* References.m in Sources */,
 				AD7A136D1F6051E900C6D182 /* main.m in Sources */,
 				AD7A135F1F6051E900C6D182 /* AppDelegate.m in Sources */,
 				AD7A13791F60539C00C6D182 /* studyCell.m in Sources */,

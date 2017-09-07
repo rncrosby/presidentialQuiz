@@ -17,50 +17,7 @@
 - (void)viewDidLoad {
     blurVisible = false;
     [References blurView:blur];
-    presidents = [[NSArray alloc] initWithObjects:
-                  @"George Washington",
-                  @"John Adams",
-                  @"Thomas Jefferson",
-                  @"James Madison",
-                  @"James Monroe",
-                  @"John Quincey Adams",
-                  @"Andrew Jackson",
-                  @"Martin Van Buren",
-                  @"William H. Harrison",
-                  @"John Tyler",
-                  @"James K. Polk",
-                  @"Zachary Taylor",
-                  @"Millard Fillmore",
-                  @"Franklin Pierce",
-                  @"James Buchanan",
-                  @"Abraham Lincoln",
-                  @"Andrew Johnson",
-                  @"Ulysses S. Grant",
-                  @"Rutherford B. Hayes",
-                  @"James A. Garfield",
-                  @"Chester A. Arthur",
-                  @"Grover Cleveland",
-                  @"William McKinley",
-                  @"Theodore Roosevelt",
-                  @"William Howard Taft",
-                  @"Woodrow Wilson",
-                  @"Warren G. Harding",
-                  @"Calvin Coolidge",
-                  @"Herbert Hoover",
-                  @"Franklin D. Roosevelt",
-                  @"Harry S. Truman",
-                  @"Dwight D. Eisenhower",
-                  @"John F. Kennedy",
-                  @"Lyndon B. Johnson",
-                  @"Richard Nixon",
-                  @"Gerald Ford",
-                  @"Jimmy Carter",
-                  @"Ronald Reagan",
-                  @"George H. W. Bush",
-                  @"Bill Clinton",
-                  @"George W. Bush",
-                  @"Barack Obama",
-                  @"Donald Trump", nil];
+    presidents = [References listOfPresidents];
     [table reloadData];
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -83,19 +40,41 @@
     }
     
     cell.name.text = presidents[indexPath.row];
-    cell.number.text = [NSString stringWithFormat:@"%li PRESIDENT",indexPath.row+1];
+    cell.number.text = [NSString stringWithFormat:@"%@ PRESIDENT",[self addSuffixToNumber:(int)indexPath.row+1]];
     return cell;
+}
+
+-(NSString *) addSuffixToNumber:(int) number
+{
+    NSString *suffix;
+    int ones = number % 10;
+    int tens = (number/10) % 10;
+    
+    if (tens ==1) {
+        suffix = @"TH";
+    } else if (ones ==1){
+        suffix = @"ST";
+    } else if (ones ==2){
+        suffix = @"ND";
+    } else if (ones ==3){
+        suffix = @"RD";
+    } else {
+        suffix = @"TH";
+    }
+    
+    NSString * completeAsString = [NSString stringWithFormat:@"%d%@", number, suffix];
+    return completeAsString;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView.contentOffset.y < -100) {
         [self dismissViewControllerAnimated:YES completion:nil];
-    } else if (scrollView.contentOffset.y > 30) {
+    } else if (scrollView.contentOffset.y > 20) {
         if (blurVisible == false) {
             [References fadeIn:blur];
             blurVisible = true;
         }
-    } else if (scrollView.contentOffset.y < 30) {
+    } else if (scrollView.contentOffset.y < 20) {
         if (blurVisible == true) {
             [References fadeOut:blur];
             blurVisible = false;

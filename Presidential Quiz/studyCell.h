@@ -11,5 +11,6 @@
 @interface studyCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet UILabel *number;
+@property (weak, nonatomic) IBOutlet UILabel *back;
 
 @end
