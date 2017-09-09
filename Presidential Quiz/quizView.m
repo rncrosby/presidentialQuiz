@@ -15,12 +15,13 @@
 @implementation quizView
 
 - (void)viewDidLoad {
+
      [References blurView:blur];
      [References blurView:answerPanel];
     answerList = [[NSMutableArray alloc] initWithArray:[References listOfPresidents]];
     responseList = [[NSMutableArray alloc] init];
     currentSelection = [[NSMutableArray alloc] init];
-    for (int a = 0; a < answerList.count-1; a++) {
+    for (int a = 0; a < answerList.count; a++) {
         [responseList addObject:@"______________________"];
         [currentSelection addObject:[NSNumber numberWithInteger:1]];
     }
@@ -38,8 +39,22 @@
     [References cornerRadius:currentScore radius:8.0f];
     [References lightCardShadow:shadow];
     [table reloadData];
-    currentPresident = 0;
-    currentSelection[currentPresident] = [NSNumber numberWithInteger:2];
+    if ([_mode isEqualToString:@"Easy"]) {
+        currentPresident = 0;
+        currentSelection[currentPresident] = [NSNumber numberWithInteger:2];
+    } else {
+        currentPresident = [self getRandomNumberBetween:0 to:(int)responseList.count];
+        currentSelection[currentPresident] = [NSNumber numberWithInteger:2];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (currentPresident < 2) {
+                [table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            } else {
+                [table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(currentPresident-2) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            }
+            
+        });
+    }
+
     [self nextPresident];
     currentTime = 0;
     quizTime = [NSTimer scheduledTimerWithTimeInterval:1.0
@@ -69,7 +84,6 @@
 }
 
 -(void)nextPresident {
-
     answer = answerList[currentPresident];
     int correct;
     correct = [self getRandomNumberBetween:1 to:4];
@@ -110,8 +124,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return answerList.count-1;
-    
+    return answerList.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -123,30 +136,71 @@
     [answerResult prepare];
     UIButton *newAnswer = (UIButton*)sender;
     if ([newAnswer.titleLabel.text isEqualToString:answer]) {
-        [answerResult notificationOccurred:UINotificationFeedbackTypeSuccess];
-        responseList[currentPresident] = answer;
-        currentSelection[currentPresident] = [NSNumber numberWithInteger:1];
-        currentPresident++;
-        currentSelection[currentPresident] = [NSNumber numberWithInteger:2];
-        [self nextPresident];
-            [table reloadData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (currentPresident < 2) {
-                [table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-            } else {
-                [table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(currentPresident-2) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-            }
-            
-        });
-        int currentScoreInt = 0;
-        for (int a = 0; a < responseList.count; a++) {
+        int answers = 0;
+        for (int a = 0; a < responseList.count ; a++) {
             if ([responseList[a] isEqualToString:@"______________________"]) {
                 nil;
             } else {
-                currentScoreInt++;
+                answers++;
             }
         }
-        currentScore.text = [NSString stringWithFormat:@"%i/%lu Complete",currentScoreInt,(unsigned long)responseList.count];
+        if (answers == responseList.count) {
+            [References fullScreenToast:@"You Did It!" inView:self withSuccess:YES andClose:YES];
+        } else {
+            [References fadeIn:nice];
+            [answerResult notificationOccurred:UINotificationFeedbackTypeSuccess];
+            responseList[currentPresident] = answer;
+            currentSelection[currentPresident] = [NSNumber numberWithInteger:1];
+            if ([_mode isEqualToString:@"Easy"]) {
+                if (currentPresident == responseList.count-1) {
+                    for (int a = 0; a < responseList.count; a++) {
+                        if ([responseList[a] isEqualToString:@"______________________"]) {
+                            currentPresident = a;
+                            currentSelection[currentPresident] = [NSNumber numberWithInteger:2];
+                            break;
+                        }
+                    }
+                } else {
+                    currentPresident++;
+                    currentSelection[currentPresident] = [NSNumber numberWithInteger:2];
+                }
+            } else {
+                bool nextUp = false;
+                while (nextUp == false) {
+                    currentPresident = [self getRandomNumberBetween:0 to:(int)responseList.count];
+                    currentSelection[currentPresident] = [NSNumber numberWithInteger:2];
+                    if ([responseList[currentPresident] isEqualToString:@"______________________"]) {
+                        nextUp = true;
+                    }
+                }
+            }
+            [self nextPresident];
+            [table reloadData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (currentPresident < 2) {
+                    [table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                } else {
+                    [table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(currentPresident-2) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                }
+                
+            });
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                                         1 * NSEC_PER_SEC),
+                           dispatch_get_main_queue(),
+                           ^{
+                               [References fadeOut:nice];
+                           });
+            int currentScoreInt = 0;
+            for (int a = 0; a < responseList.count; a++) {
+                if ([responseList[a] isEqualToString:@"______________________"]) {
+                    nil;
+                } else {
+                    currentScoreInt++;
+                }
+            }
+            currentScore.text = [NSString stringWithFormat:@"%i/%lu Complete",currentScoreInt,(unsigned long)responseList.count];
+        }
+        
     } else {
         mistakes++;
         UILabel *blurry = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [References screenWidth], [References screenHeight])];
@@ -184,6 +238,24 @@
             [References fadeIn:mistakeA];
             [References fadeIn:mistakeB];
              [References fadeIn:mistakeC];
+            int currentScoreInt = 0;
+            for (int a = 0; a < responseList.count; a++) {
+                if ([responseList[a] isEqualToString:@"______________________"]) {
+                    nil;
+                } else {
+                    currentScoreInt++;
+                }
+            }
+            NSString *finalScore = [NSString stringWithFormat:@"%i/%lu",currentScoreInt,(unsigned long)responseList.count];
+            if ([_mode isEqualToString:@"Easy"]) {
+                int pastScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"easyScore"];
+                [[NSUserDefaults standardUserDefaults] setObject:finalScore forKey:@"easyModeScore"];
+                [[NSUserDefaults standardUserDefaults] setObject:[self timeFormatted:currentTime] forKey:@"easyModeTime"];
+            } else {
+                [[NSUserDefaults standardUserDefaults] setObject:finalScore forKey:@"hardModeScore"];
+                [[NSUserDefaults standardUserDefaults] setObject:[self timeFormatted:currentTime] forKey:@"hardModeTime"];
+            }
+            
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
                                          1 * NSEC_PER_SEC),
                            dispatch_get_main_queue(),
@@ -250,16 +322,22 @@
     
     int seconds = totalSeconds % 60;
     int minutes = (totalSeconds / 60) % 60;
-    
     return [NSString stringWithFormat:@"%02d:%02d",minutes,seconds];
 }
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    currentSelection[currentPresident] = [NSNumber numberWithInteger:1];
-    currentPresident = (int)indexPath.row;
-    currentSelection[currentPresident] = [NSNumber numberWithInteger:2];
-    [self nextPresident];
-    [table reloadData];
+    if ([_mode isEqualToString:@"Easy"]) {
+        currentSelection[currentPresident] = [NSNumber numberWithInteger:1];
+        currentPresident = (int)indexPath.row;
+        currentSelection[currentPresident] = [NSNumber numberWithInteger:2];
+        [self nextPresident];
+        [table reloadData];
+    } else {
+        answerResult = [[UINotificationFeedbackGenerator alloc] init];
+        [answerResult prepare];
+        [answerResult notificationOccurred:UINotificationFeedbackTypeWarning];
+    }
+
 }
 @end

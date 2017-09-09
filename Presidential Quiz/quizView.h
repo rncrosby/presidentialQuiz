@@ -33,7 +33,9 @@
     __weak IBOutlet UIButton *mistakeA;
     __weak IBOutlet UIButton *mistakeB;
     __weak IBOutlet UIButton *mistakeC;
+    __weak IBOutlet UILabel *nice;
 }
+@property (nonatomic, retain) NSString *mode;
 - (IBAction)checkAnswer:(id)sender;
 - (IBAction)goBack:(id)sender;
 
